@@ -1,0 +1,6 @@
+{
+  "name": "Localsecuritypolicy",
+  "tagline": "Windows Local Security Policy Powershell Module",
+  "body": "Powershell cmdlets to edit the Windows Local Security Policy\r\n\r\n###Installation\r\n\r\ndownload both the PSM1 and PSD1 files. Import the PSD1.\r\n\r\n###Notes    \r\nRawCode folder contains the individual raw code.\r\n\r\n[Back to Home](http://jeffbuenting.github.io)",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}
