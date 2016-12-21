@@ -55,8 +55,8 @@ Function Get-LocalSecurityPolicy {
 
                 # ----- Deleting the file to clean up
                 Write-Verbose "Get-LocalSecurityPolicy : Clean up tempory file"
-                Remove-Item -Path $env:APPDATA\secpol.cfg
-
+         #       Remove-Item -Path $env:APPDATA\secpol.cfg
+                
                 Write-Output $SECPol
             }
             else {
@@ -72,11 +72,11 @@ Function Get-LocalSecurityPolicy {
                         Write-Verbose "Get-LocalSecurityPolicy : Exporting the local security policies to : $env:APPDATA"
                         Secedit /export /cfg $env:APPDATA\secpol.cfg | out-null
                         $Policy = Get-Content -Path $env:APPDATA\secpol.cfg
-
+                       
                         # ----- Deleting the file to clean up
                         Write-Verbose "Get-LocalSecurityPolicy : Clean up tempory file"
                         Remove-Item -Path $env:APPDATA\secpol.cfg
-
+                  
                         write-output $Policy
                     }
 
@@ -89,6 +89,7 @@ Function Get-LocalSecurityPolicy {
 #---------------------------------------------------------------------------------
 
 Function Set-LocalSecurityPolicy {
+
 
 <#
     .Synopsis
@@ -175,7 +176,7 @@ Function Set-LocalSecurityPolicy {
                 Write-Verbose "Set-LocalSecurityPolicy : Saving new security policy"
                 $SecurityPolicy | out-File  $env:APPDATA\secpol.cfg
                 
-                Secedit /configure /db C:\windows\security\secedit.sdb /cfg $env:APPDATA\secpol.cfg
+                Secedit /configure /db C:\windows\security\secedit.sdb /cfg $env:APPDATA\secpol.cfg | Write-verbose
 
                 # # ----- Deleting the file to clean up
                 Write-Verbose "Set-LocalSecurityPolicy : Clean up tempory file"
@@ -195,7 +196,7 @@ Function Set-LocalSecurityPolicy {
                     Write-Verbose "Set-LocalSecurityPolicy : Saving new security policy"
                     $SecurityPolicy | out-File  $env:APPDATA\secpol.cfg
                 
-                    Secedit /configure /db C:\windows\security\secedit.sdb /cfg $env:APPDATA\secpol.cfg
+                    Secedit /configure /db C:\windows\security\secedit.sdb /cfg $env:APPDATA\secpol.cfg | Write-Verbose
 
                     # # ----- Deleting the file to clean up
                     Write-Verbose "Set-LocalSecurityPolicy : Clean up tempory file"
