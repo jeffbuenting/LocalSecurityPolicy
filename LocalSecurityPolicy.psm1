@@ -49,13 +49,22 @@ Function Get-LocalSecurityPolicy {
         if ( $ComputerName -eq $env:COMPUTERNAME ) {
                 Write-Verbose "Running on Local host"
 
-                Write-Verbose "Get-LocalSecurityPolicy : Exporting the local security policies to : $env:APPDATA"
-                Secedit /export /cfg $env:APPDATA\secpol.cfg | out-null
-                $SecPOL = Get-Content -Path $env:APPDATA\secpol.cfg
+                
+
+
+                $UserDoc = [environment]::getfolderpath('mydocuments')
+
+                Write-Verbose "Get-LocalSecurityPolicy : Exporting the local security policies to : $UserDoc"
+
+                # ----- Create file to store local policy if it does not exist. 
+                if ( -Not (Test-Path -Path $UserDoc\Secpol.cfg ) ) { New-Item -Path $UserDoc\SecPol.cfg -ItemType File | Out-Null }
+
+                Secedit /export /cfg $UserDoc\secpol.cfg | out-null
+                $SecPOL = Get-Content -Path $UserDoc\secpol.cfg
 
                 # ----- Deleting the file to clean up
                 Write-Verbose "Get-LocalSecurityPolicy : Clean up tempory file"
-         #       Remove-Item -Path $env:APPDATA\secpol.cfg
+            #    Remove-Item -Path $UserDoc\secpol.cfg
                 
                 Write-Output $SECPol
             }
@@ -69,13 +78,13 @@ Function Get-LocalSecurityPolicy {
                         # ----- Set the remote computers Verbose pref    
                         $VerbosePreference=$Using:VerbosePreference
 
-                        Write-Verbose "Get-LocalSecurityPolicy : Exporting the local security policies to : $env:APPDATA"
-                        Secedit /export /cfg $env:APPDATA\secpol.cfg | out-null
-                        $Policy = Get-Content -Path $env:APPDATA\secpol.cfg
+                        Write-Verbose "Get-LocalSecurityPolicy : Exporting the local security policies to : $UserDoc"
+                        Secedit /export /cfg $UserDoc\secpol.cfg | out-null
+                        $Policy = Get-Content -Path $UserDoc\secpol.cfg
                        
                         # ----- Deleting the file to clean up
                         Write-Verbose "Get-LocalSecurityPolicy : Clean up tempory file"
-                        Remove-Item -Path $env:APPDATA\secpol.cfg
+                        Remove-Item -Path $UserDoc\secpol.cfg
                   
                         write-output $Policy
                     }
